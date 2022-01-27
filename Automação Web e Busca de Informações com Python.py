@@ -2,25 +2,17 @@
 # coding: utf-8
 
 # # Automação Web e Busca de Informações com Python
-# 
+
 # #### Desafio: 
-# 
 # Trabalhamos em uma importadora e o preço dos nossos produtos é vinculado a cotação de:
 # - Dólar
 # - Euro
 # - Ouro
-# 
 # Precisamos pegar na internet, de forma automática, a cotação desses 3 itens e saber quanto devemos cobrar pelos nossos produtos, considerando uma margem de contribuição que temos na nossa base de dados.
-# 
 # Base de Dados: https://drive.google.com/drive/folders/1KmAdo593nD8J9QBaZxPOG1yxHZua4Rtv?usp=sharing
-# 
 # Para isso, vamos criar uma automação web:
-# 
 # - Usaremos o selenium
 # - Importante: baixar o webdriver
-
-# In[41]:
-
 
 # webdrivers: Chrome -> chromedriver / Firefox -> geckodriver
 
@@ -60,23 +52,12 @@ ouro = navegador.find_element(By.XPATH,
 ouro = float(ouro.replace(',','.')) #primeiro trocar o decimal e dps tornar a informação em valor númerico flutuante (float)
 print(f'{ouro:.2f}', type(ouro))
 
-navegador.quit()
+navegador.quit() #fechar o navegador
 
 
-# ## TESTE
-
-# In[42]:
-
-
-print(ouro)
-
-
-# ### Agora vamos atualiza a nossa base de preços com as novas cotações
+# ### Agora vamos atualizar a nossa base de preços com as novas cotações
 
 # - Importando a base de dados
-
-# In[43]:
-
 
 #Passo 3:  importar banco de dados para a pasta de trabalho
 import pandas as pd
@@ -84,7 +65,6 @@ import pandas as pd
 df = pd.read_excel('Produtos.xlsx')
 
 #Passo 4: atualizar banco de dados (coluna "Cotação")
-
 df.loc[df['Moeda'] == 'Dólar', 'Cotação'] = dolar
 df.loc[df['Moeda'] == 'Euro', 'Cotação'] = euro
 df.loc[df['Moeda'] == 'Ouro', 'Cotação'] = ouro
@@ -94,11 +74,7 @@ display(df)
 
 # - Atualizando os preços e o cálculo do Preço Final
 
-# In[44]:
-
-
 #Passo 5: atualizar banco de dados (demais colunas)
-
 #Coluna Preço de Compra
 df['Preço de Compra'] = df['Preço Original']*df['Cotação']
 
@@ -110,16 +86,4 @@ display(df)
 
 # ### Agora vamos exportar a nova base de preços atualizada
 
-# In[45]:
-
-
 df.to_excel('Novos Produtos.xlsx', index = False)
-
-
-# ## Instalar o selenium
-
-# In[ ]:
-
-
-#!pip install selenium
-
